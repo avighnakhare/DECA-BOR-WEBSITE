@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+}
+
+:root {
+  --background: #fdfdfd;
+  --foreground: #1e293b;
+  
+  /* Primary blue-gray, premium medical */
+  --primary: #334155; 
+  --primary-foreground: #ffffff;
+
+  /* Muted off-white/gray */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* Accent light teal/blue */
+  --accent: #e0f2fe;
+  --accent-foreground: #0369a1;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), sans-serif;
+  @apply antialiased;
+}
+
+/* 
+  =========================================
+  Premium Accessibility System Overrides
+  =========================================
+*/
+
+/* 1. Large Text & XL Text (scales via base rem size) */
+html.acc-large-text {
+  font-size: 112.5%; /* 18px base */
+}
+html.acc-xl-text {
+  font-size: 131.25%; /* 21px base */
+}
+
+/* 2. Dyslexia Friendly (fallback fonts & spacing) */
+html.acc-dyslexia * {
+  font-family: 'Comic Sans MS', 'OpenDyslexic', 'Lexend', 'Verdana', sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.1em !important;
+  line-height: 1.8 !important;
+}
+
+/* 3. High Contrast & Dark Mode */
+html.acc-high-contrast body {
+  --foreground: #000000;
+  --background: #ffffff;
+  --primary: #000000;
+  --muted: #eeeeee;
+  --muted-foreground: #111111;
+  font-weight: 600;
+  border-color: #000000 !important;
+}
+
+html.acc-dark body {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --primary: #cbd5e1;
+  --primary-foreground: #020617;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+}
+
+/* Fix any cards/sections specifically in dark mode if needed */
+html.acc-dark section.bg-blue-50\/50,
+html.acc-dark section.bg-slate-50,
+html.acc-dark div.bg-blue-100 {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+html.acc-dark .bg-white {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border-color: var(--muted) !important;
+}
+
+/* 4. Reduced Motion */
+html.acc-motion *, html.acc-motion *::before, html.acc-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 5. Focus Highlight */
+html.acc-focus *:focus-visible, 
+html.acc-focus a:hover, 
+html.acc-focus button:hover {
+  outline: 4px solid #facc15 !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 4px #000000 !important;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+/* 6. Grayscale */
+html.acc-grayscale {
+  filter: grayscale(100%);
+}
+
+/* 7. Big Cursor */
+html.acc-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="42" viewBox="0 0 36 42"><path fill="%23000000" stroke="%23ffffff" stroke-width="2" d="M1 1l14.5 35 4.5-12.5L32 19z"/></svg>') 1 1, auto !important;
+}

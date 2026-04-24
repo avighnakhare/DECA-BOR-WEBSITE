@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import { Award, UserCheck, Stethoscope, HeartHandshake } from "lucide-react";
+import Image from "next/image";
 
 export function AboutSection() {
   return (
@@ -11,10 +12,12 @@ export function AboutSection() {
           <div className="relative order-2 lg:order-1">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-xl bg-white p-2">
               <div className="w-full h-full bg-slate-200 rounded-xl relative flex items-center justify-center overflow-hidden">
-                <div className="text-slate-500 text-center px-4">
-                  <p className="font-semibold text-lg">Clinician / Team Photo</p>
-                  <p className="text-sm">Warm, approachable professional portrait</p>
-                </div>
+                <Image 
+                  src="/team-photo.jpg" 
+                  alt="Birkdale Audiology Team with dog" 
+                  fill
+                  className="object-cover"
+                />
               </div>
             </div>
             {/* Decorative background element */}

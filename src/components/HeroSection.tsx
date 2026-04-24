@@ -52,12 +52,13 @@ export function HeroSection() {
           {/* Image Area Placeholder */}
           <div className="relative">
             <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-white border p-2">
-              <div className="w-full h-full bg-slate-200 rounded-xl relative flex items-center justify-center">
-                {/* Normally an <Image> would go here */}
-                <div className="text-slate-500 text-center px-4">
-                  <p className="font-semibold text-lg">Doctor/Patient Interaction Image</p>
-                  <p className="text-sm">High-quality, warm, professional</p>
-                </div>
+              <div className="w-full h-full bg-slate-200 rounded-xl relative flex items-center justify-center overflow-hidden">
+                <Image 
+                  src="/patient-interaction.jpg" 
+                  alt="Doctor performing hearing test with patient" 
+                  fill
+                  className="object-cover"
+                />
               </div>
               
               {/* Floating Badge */}

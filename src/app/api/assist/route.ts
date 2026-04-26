@@ -23,19 +23,43 @@ CRITICAL RULES:
 `;
 
 export async function POST(req: Request) {
+  let body;
   try {
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { reply: "Assist Mode is running in mock mode because the API key is not configured. Please contact the clinic at (704) 237-4099." },
-        { status: 500 }
-      );
+    body = await req.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { message, history } = body;
+
+  if (!message) {
+    return NextResponse.json({ error: "Message is required" }, { status: 400 });
+  }
+
+  const handleFallback = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate loading delay
+    
+    const lowercaseMsg = message.trim().toLowerCase();
+    
+    if (lowercaseMsg.includes("intake form")) {
+      return NextResponse.json({ reply: "Yes, I can help you with that! To get started, what is your full name?" });
     }
 
-    const body = await req.json();
-    const { message, history } = body;
+    // Check if the previous message from AI was asking for the name
+    const lastStaffMsg = Array.isArray(history) ? [...history].reverse().find(msg => msg.role === "assistant") : null;
+    if (lastStaffMsg && lastStaffMsg.content.includes("what is your full name")) {
+      // Capitalize the first letter of each word in the name
+      const capitalize = (str: string) => str.replace(/\b\w/g, char => char.toUpperCase());
+      const name = capitalize(message.trim());
+      return NextResponse.json({ reply: `Thank you, ${name}! For your intake form, could you please provide your date of birth and phone number?` });
+    }
 
-    if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+    return NextResponse.json({ reply: "I'm having trouble fully connecting to the AI system at the moment, but I can help you start an intake form. For immediate assistance, please call the clinic at (704) 237-4099." });
+  };
+
+  try {
+    if (!process.env.GEMINI_API_KEY) {
+      return await handleFallback();
     }
 
     // Format history for Gemini API
@@ -62,9 +86,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ reply: response.text });
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error", reply: "Assist Mode is temporarily unavailable. Please call the clinic at (704) 237-4099 for help." },
-      { status: 500 }
-    );
+    // Use fallback if API throws an error
+    return await handleFallback();
   }
 }

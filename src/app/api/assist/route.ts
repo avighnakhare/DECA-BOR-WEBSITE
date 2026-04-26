@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ reply: `Thank you, ${name}! For your intake form, could you please provide your date of birth and phone number?` });
     }
 
-    return NextResponse.json({ reply: "I'm having trouble fully connecting to the AI system at the moment, but I can help you start an intake form. For immediate assistance, please call the clinic at (704) 237-4099." });
+    return NextResponse.json({ reply: "I'd be happy to help! Just to make sure I assist you properly, are you looking to fill out an intake form or schedule an appointment?" });
   };
 
   try {
